@@ -1,5 +1,13 @@
+from abc import ABC, abstractmethod
 from datetime import date, datetime
 from typing import Dict, List
+
+
+class MaxContext(ABC):
+
+    @abstractmethod
+    def get_maxes(self):
+        pass
 
 
 class ExerciseTemplate:
@@ -27,6 +35,21 @@ class Set:
         return f'{self.weight} x {self.reps}'
 
 
+class PercentBasedSet:
+    percent: float
+    reps: int
+
+    context: MaxContext
+
+    def __init__(self, context, percent, reps):
+        self.context = context
+        self.percent, self.reps = percent, reps
+
+
+    def get_weight(self):
+        pass
+
+
 class Exercise:
     exercise_template: ExerciseTemplate
     sets: List[Set]
@@ -50,7 +73,7 @@ class Workout:
             print(exercise)
 
 
-class Routine:
+class Routine(MaxContext):
     routine: Dict[date, Workout] = {}
     exercise_bases: Dict[int, float] = {}
 
@@ -63,6 +86,9 @@ class Routine:
 
         self.routine[day] = workout
         workout.show_me()
+
+    def get_maxes(self):
+        return self.exercise_bases
 
 
 if __name__ == '__main__':
