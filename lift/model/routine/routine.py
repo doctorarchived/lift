@@ -45,9 +45,7 @@ class PercentBasedSet:
         self.context = context
         self.percent, self.reps = percent, reps
 
-
     def get_weight(self):
-
         pass
 
 
